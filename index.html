@@ -21,7 +21,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px
 header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px}
 h1{font-size:20px;font-weight:600;margin:0;text-wrap:balance}
 .sub{color:var(--muted);margin:2px 0 0;max-width:62ch}
-.period{font-family:var(--mono);font-size:34px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;text-align:center}
+.period{font-family:var(--mono);font-size:34px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;flex:1 1 100%;text-align:center}
 .controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:var(--surface);border:1px solid var(--grid);border-radius:6px;padding:10px 12px}
 button,select{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--axis);border-radius:5px;padding:6px 12px;cursor:pointer}
 button#play{min-width:84px;font-weight:500;background:var(--accent);border-color:var(--accent);color:#fff}
@@ -57,7 +57,7 @@ body{margin:0}
   <header>
     <div>
       <h1>Industry Sentiment Trend. Year over Year</h1>
-      <p class="sub">All data is taken from ACEC Research Quarterly Sentiment Survey results. Each bubble represents an industry. Height and size show the average of the prior three quarters sentiment value. ; horizontal position and color show its sentiment change versus a year prior.</p>
+      <p class="sub">All data is taken from ACEC Research Quarterly Sentiment Survey results. Each bubble represents an industry. Each bubbles height and size represents the average of the prior three quarters sentiment values. Horizontal position and color show its sentiment change versus a year prior.</p>
     </div>
     <div class="period" id="periodLabel" aria-live="polite"></div>
   </header>
@@ -84,7 +84,7 @@ body{margin:0}
 
   <div class="legend">
     <div class="ramp"><span>-20% or lower</span><i></i><span>+20% or higher</span></div>
-    <div>Color is the four-quarter change, capped at ±20%. Bubble area is proportional to the average of the most recent three quarters of ACEC Sentiment Survey results. The x axis is limited to ±40%; points beyond it sit on the edge.</div>
+    <div>Color is the change over prior year, capped at ±20%. Bubble area is proportional to the Sentiment. The x axis is limited to ±40%; points beyond it sit on the edge.</div>
   </div>
 
   <details>
@@ -226,7 +226,7 @@ function highlight(d){
 const tip = $('tip');
 function showTip(e, d){
   const p = d.pts[cur];
-  tip.innerHTML = `<b>${d.name}</b>${periods[cur]}<br>Sentiment: <span>${p.v.toFixed(1)}</span><br>4 quarters ago: <span>${p.prior.toFixed(1)}</span><br>Change: <span>${pct(p.g)}</span>${Math.abs(p.g) > xhi ? '<br><i>Beyond axis limit, shown at the edge</i>' : ''}`;
+  tip.innerHTML = `<b>${d.name}</b>${periods[cur]}<br>Sentiment: <span>${p.v.toFixed(1)}</span><br>Year ago: <span>${p.prior.toFixed(1)}</span><br>Change: <span>${pct(p.g)}</span>${Math.abs(p.g) > xhi ? '<br><i>Beyond axis limit, shown at the edge</i>' : ''}`;
   const box = $('chartbox').getBoundingClientRect();
   let tx = e.clientX - box.left + 14, ty = e.clientY - box.top + 14;
   const tw = tip.offsetWidth, th = tip.offsetHeight;
