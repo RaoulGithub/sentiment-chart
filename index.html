@@ -21,7 +21,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px
 header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px}
 h1{font-size:20px;font-weight:600;margin:0;text-wrap:balance}
 .sub{color:var(--muted);margin:2px 0 0;max-width:62ch}
-.period{font-family:var(--mono);font-size:34px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.period{font-family:var(--mono);font-size:34px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;text-align:center}
 .controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:var(--surface);border:1px solid var(--grid);border-radius:6px;padding:10px 12px}
 button,select{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--axis);border-radius:5px;padding:6px 12px;cursor:pointer}
 button#play{min-width:84px;font-weight:500;background:var(--accent);border-color:var(--accent);color:#fff}
@@ -56,8 +56,8 @@ body{margin:0}
 <div class="wrap">
   <header>
     <div>
-      <h1>Industry Sentiment, Year over Year</h1>
-      <p class="sub">Each bubble is an industry. Height and size show the sentiment value; horizontal position and color show its change versus four quarters earlier.</p>
+      <h1>Industry Sentiment Trend. Year over Year</h1>
+      <p class="sub">All data is taken from ACEC Research Quarterly Sentiment Survey results. Each bubble represents an industry. Height and size show the sentiment value. To reduce the impact of single quarter outlier data, sentiment values are calculated as the average for the most recent three quarters surveys; horizontal position and color show its change versus four quarters earlier.</p>
     </div>
     <div class="period" id="periodLabel" aria-live="polite"></div>
   </header>
@@ -74,7 +74,7 @@ body{margin:0}
       <option value="550">2x</option>
     </select>
     <label class="chk"><input id="labels" type="checkbox" checked> Labels</label>
-    <label class="chk"><input id="trails" type="checkbox"> Trails</label>
+    <label class="chk"><input id="trails" type="checkbox" checked> Trails</label>
   </div>
 
   <div class="chartbox" id="chartbox">
@@ -84,7 +84,7 @@ body{margin:0}
 
   <div class="legend">
     <div class="ramp"><span>-20% or lower</span><i></i><span>+20% or higher</span></div>
-    <div>Color is the four-quarter change, capped at ±20%. Bubble area is proportional to the sentiment value. The x axis is limited to ±40%; points beyond it sit on the edge.</div>
+    <div>Color is the four-quarter change, capped at ±20%. Bubble area is proportional to the sentiment value (average of prior three quarters from ACEC Sentiment Survey). The x axis is limited to ±40%; points beyond it sit on the edge.</div>
   </div>
 
   <details>
@@ -163,7 +163,7 @@ function layout(){
     .call(g => g.selectAll('.tick line').attr('stroke', css('--axis')));
   ax.selectAll('.tick text').attr('fill', css('--muted'));
   svg.append('text').attr('x', (M.l + W - M.r)/2).attr('y', H - 8).attr('text-anchor', 'middle')
-    .text('Change in sentiment vs. four quarters prior');
+    .text('Change in sentiment since prior year');
   svg.append('text').attr('transform', `translate(13,${(M.t + H - M.b)/2}) rotate(-90)`).attr('text-anchor', 'middle')
     .text('Sentiment value');
 
